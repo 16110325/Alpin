@@ -1,0 +1,283 @@
+--create database CMWW_CAFE
+--on
+--(
+--name = CMWW_CAFE_dat,
+--filename = 'D:\AMIKOM\Semester 3\Sistem Basis Data\CMWW CAFE.mdf',
+--size = 10,
+--maxsize = 50,
+--filegrowth = 5
+--)
+--log on
+--(
+--name = CMWW_CAFE_log,
+--filename = 'D:\AMIKOM\Semester 3\Sistem Basis Data\CMWW CAFE.ldf',
+--size = 5mb,
+--maxsize = 25mb,
+--filegrowth = 5mb
+--)
+
+--create table Pelanggan(
+--kd_pelanggan char (5) primary key not null,
+--nama varchar (30),
+--)
+
+--create table Kategori(
+--kd_kategori char (5) primary key not null,
+--nama_kategori varchar (30),
+--)
+
+--create table Diskon(
+--kd_diskon char (5) primary key not null,
+--diskon varchar (5),
+--kelas char (8) check (kelas='Platinum' or kelas='Gold')
+--)
+
+--create table Member(
+--kd_member char (5) primary key not null,
+--nama varchar (30),
+--kelas char (8) check (kelas='Platinum' or kelas='Gold'),
+--kd_diskon char (5) foreign key references Diskon (kd_diskon)
+--)
+
+--create table Bagian(
+--kd_bagian char (5) primary key not null,
+--bagian varchar (30),
+--)
+
+--create table Menu(
+--kd_menu char (5) primary key not null,
+--nama_menu char (30) not null,
+--harga numeric,
+--kd_kategori char (5) foreign key references Kategori (kd_kategori)
+--)
+
+--create table Pegawai(
+--kd_pegawai char (5) primary key not null,
+--kd_bagian char (5) foreign key references Bagian (kd_bagian),
+--nama varchar (30) not null,
+--)
+
+--create table Jadwal_Pegawai(
+--kd_jadwal char (5) primary key not null,
+--kd_pegawai char (5) foreign key references Pegawai (kd_pegawai),
+--shift varchar (10) check (shift='Pagi' or shift='Sore')
+--)
+
+--create table Pesanan(
+--kd_pesanan char (5) primary key not null,
+--kd_menu char (5) foreign key references Menu (kd_menu),
+--kd_pelanggan char (5) foreign key references Pelanggan (kd_pelanggan),
+--kd_member char (5) foreign key references Member (kd_member),
+--kd_pegawai char (5) foreign key references Pegawai (kd_pegawai),
+--keterangan varchar (20) not null,
+--)
+
+--create table Bayar(
+--kd_bayar char (5) primary key not null,
+--kd_pesanan char (5) foreign key references Pesanan (kd_pesanan),
+--kd_pelanggan char (5) foreign key references Pelanggan (kd_pelanggan),
+--kd_member char (5) foreign key references Member (kd_member),
+--tanggal datetime,
+--total_harga numeric
+--)
+
+--create table Gaji(
+--kd_gaji char (5) primary key not null,
+--kd_pegawai char (5) foreign key references Pegawai (kd_pegawai),
+--gaji numeric
+--)
+
+--create table Reservasi(
+--kd_reservasi char (5) primary key not null,
+--kd_pegawai char (5) foreign key references Pegawai (kd_pegawai),
+--tanggal datetime,
+--keterangan varchar (100) not null
+--)
+
+--create table Detail_Pesanan(
+--kd_menu char (5) foreign key references Menu (kd_menu),
+--kd_pesanan char (5) foreign key references Pesanan (kd_pesanan),
+--kuantiti varchar (4) not null,
+--)
+
+
+--use CMWW_CAFE
+
+--insert into Bagian values ('BG001','Kasir')
+--insert into Bagian values ('BG002','Koki')
+--insert into Bagian values ('BG003','Waiters')
+--select * from Bagian
+
+--insert into Pegawai values ('PG001','BG001','Marsha')
+--insert into Pegawai values ('PG002','BG001','Cici')
+--insert into Pegawai values ('PG003','BG001','Sukma')
+--insert into Pegawai values ('PG004','BG001','Roy')
+--insert into Pegawai values ('PG005','BG001','Jarot')
+--insert into Pegawai values ('PG006','BG002','Lina')
+--insert into Pegawai values ('PG007','BG002','Juna')
+--insert into Pegawai values ('PG008','BG002','Sarah')
+--insert into Pegawai values ('PG009','BG002','Marlina')
+--select * from Pegawai
+
+--insert into Kategori values ('KP001','Kopi')
+--insert into Kategori values ('MK001','Makanan')
+--insert into Kategori values ('DS001','Desert')
+--insert into Kategori values ('BV001','Beverage')
+--select * from Kategori
+
+--insert into Gaji values ('GJ001','PG001','800000')
+--insert into Gaji values ('GJ002','PG002','800000')
+--insert into Gaji values ('GJ003','PG003','800000')
+--insert into Gaji values ('GJ004','PG004','800000')
+--insert into Gaji values ('GJ005','PG005','800000')
+--insert into Gaji values ('GJ006','PG006','1000000')
+--insert into Gaji values ('GJ007','PG007','1000000')
+--insert into Gaji values ('GJ008','PG008','1000000')
+--insert into Gaji values ('GJ009','PG009','1000000')
+--select * from Gaji
+
+--insert into Menu values ('RBS','Robusta','18000','KP001')
+--insert into Menu values ('AME','Americano','25000','KP001')
+--insert into Menu values ('ESP','Espresso','15000','KP001')
+--insert into Menu values ('CPC','Cappucino','20000','KP001')
+--insert into Menu values ('MCN','Mochacino','20000','KP001')
+--insert into Menu values ('ARB','Arabica','18000','KP001')
+
+--insert into Menu values ('NSS','Nasi Goreng Sosis','16000','MK001')
+--insert into Menu values ('NST','Nasi Goreng Telur','15000','MK001')
+--insert into Menu values ('NSC','Nasi Goreng Campur','17000','MK001')
+--insert into Menu values ('IG','Indomie Goreng','6000','MK001')
+--insert into Menu values ('IGT','Indomie Goreng Telur','8000','MK001')
+--insert into Menu values ('MA','Mie Ayam','10000','MK001')
+--insert into Menu values ('MAB','Mie Ayam Bakso','12000','MK001')
+
+--insert into Menu values ('ICV','Ice Cream Vanilla','12000','DS001')
+--insert into Menu values ('ICC','Ice Cream Coklat','12000','DS001')
+--insert into Menu values ('ICD','Ice Cream Durian','13000','DS001')
+--insert into Menu values ('ICM','Ice Cream Mangga','13000','DS001')
+
+--insert into Menu values ('SRB','Serabi','3000','BV001')
+--insert into Menu values ('PSL','Paste','2000','BV001')
+--insert into Menu values ('RIS','Risoles','2500','BV001')
+--insert into Menu values ('BGR','Batagor','5000','BV001')
+--select * from Menu
+
+--insert into Pelanggan values ('PL001','Budiman')
+--insert into Pelanggan values ('PL002','Rika')
+--insert into Pelanggan values ('PL003','Hana')
+--insert into Pelanggan values ('PL004','Anggit')
+--insert into Pelanggan values ('PL005','Aji')
+--insert into Pelanggan values ('PL006','Luhur')
+--insert into Pelanggan values ('PL007','Arini')
+--insert into Pelanggan values ('PL008','Uut')
+--insert into Pelanggan values ('PL009','Amera')
+--insert into Pelanggan values ('PL010','Uring')
+--select * from Pelanggan
+
+--insert into Jadwal_Pegawai values ('JP001','PG001','Pagi')
+--insert into Jadwal_Pegawai values ('JP002','PG002','Pagi')
+--insert into Jadwal_Pegawai values ('JP003','PG003','Pagi')
+--insert into Jadwal_Pegawai values ('JP004','PG004','Pagi')
+--insert into Jadwal_Pegawai values ('JP005','PG005','Pagi')
+--insert into Jadwal_Pegawai values ('JP006','PG006','Sore')
+--insert into Jadwal_Pegawai values ('JP007','PG007','Sore')
+--insert into Jadwal_Pegawai values ('JP008','PG008','Sore')
+--insert into Jadwal_Pegawai values ('JP009','PG009','Sore')
+--select * from Jadwal_Pegawai
+
+--insert into Reservasi values ('R001','PG003','12/13/2017 19:00:00','Malam')
+--insert into Reservasi values ('R002','PG002','12/13/2017 14:00:00' ,'Siang')
+--insert into Reservasi values ('R003','PG005','12/16/2017 14:00:00','Siang')
+--insert into Reservasi values ('R004','PG001','12/17/2017 20:00:00','Malam')
+--insert into Reservasi values ('R005','PG004','12/17/2017 17:00:00','Sore')
+--select * from Reservasi
+
+--insert into Diskon values ('D001','10%','Platinum')
+--insert into Diskon values ('D002','20%','Gold')
+--select * from Diskon
+
+--insert into Member values ('M001','Budiman','Platinum','D001')
+--insert into Member values ('M002','Rika','Platinum','D001')
+--insert into Member values ('M003','Luhur','Gold','D002')
+--insert into Member values ('M004','Uut','Gold','D002')
+--insert into Member values ('M005','Hana','Gold','D002')
+--select * from Member
+
+--insert into Pesanan values ('P001','RBS','PL001','M001','PG001','Proses')
+--insert into Pesanan values ('P002','BGR','PL002','M002','PG003','Proses')
+--insert into Pesanan values ('P003','NSS','PL006','M003','PG004','Proses')
+--insert into Pesanan values ('P004','ICV','PL008','M004','PG002','Proses')
+--insert into Pesanan values ('P005','SRB','PL005','M005','PG005','Proses')
+--select * from Pesanan
+
+--insert into Detail_Pesanan values ('RBS','P001','4')
+--insert into Detail_Pesanan values ('BGR','P002','4') 
+--insert into Detail_Pesanan values ('NSS','P003','4') 
+--insert into Detail_Pesanan values ('ICV','P004','4') 
+--insert into Detail_Pesanan values ('SRB','P005','4')
+--select * from Detail_Pesanan
+
+--insert into Bayar values ('BY001','P001','PL001','M001','12/14/2017 22:00:00','64800')
+--insert into Bayar values ('BY002','P002','PL002','M002','12/14/2017 22:25:00','18000')
+--insert into Bayar values ('BY003','P003','PL006','M003','12/14/2017 21:10:00','51200')
+--insert into Bayar values ('BY004','P004','PL008','M004','12/14/2017 23:11:00','38400')
+--insert into Bayar values ('BY005','P005','PL005','M005','12/14/2017 23:45:00','9600')
+--select * from Bayar
+
+
+
+
+
+update Reservasi set tanggal='12/13/2017 14:00:00' where kd_reservasi = 'R002'
+update Reservasi set tanggal='12/16/2017 14:00:00' where kd_reservasi = 'R003'
+update Reservasi set tanggal='12/17/2017 20:00:00' where kd_reservasi = 'R004'
+update Reservasi set tanggal='12/17/2017 17:00:00' where kd_reservasi = 'R005'
+update Diskon set kd_diskon = 'D001' where diskon = '10%'
+alter table Diskon alter column diskon varchar (5)
+
+select * from INFORMATION_SCHEMA.TABLES BAGIAN
+
+alter table Member alter column kelas char (8)
+
+alter table pesanan alter column kuantiti varchar (10)
+
+alter table pesanan alter column kuantiti qty 
+
+select top 3 nama_menu , harga from Menu order by s
+
+select * from Gaji
+
+select Gaji.gaji, Pegawai.nama from pegawai join Gaji on Gaji.kd_pegawai = Pegawai.kd_pegawai where Gaji.gaji = '1000000'
+
+select * from Bayar
+
+select * from Member
+
+select Member.nama, Pegawai.nama, Jadwal_Pegawai.shift from Pegawai join Member on Pegawai.kd_pegawai = Member.kd_pegawai join Pesanan on Pesanan.kd_pegawai where Jadwal_Pegawai.shift='Pagi'
+
+
+select COUNT(nama_menu) from Menu join Pesanan on menu.kd_menu = Pesanan.kd_menu join Pelanggan on Pelanggan.kd_pelanggan = Pesanan.kd_pelanggan where Pelanggan.nama = 'Rika'
+
+select Bagian.bagian , Gaji.gaji from Pegawai join Gaji on Pegawai.kd_pegawai = Gaji.kd_pegawai join Bagian on Bagian.kd_bagian = Pegawai.kd_bagian where Gaji.gaji = '800000'
+
+select Bagian.bagian ,  Gaji.gaji from Gaji join Pegawai on Pegawai.kd_pegawai = Gaji.kd_pegawai join Bagian on Bagian.kd_bagian = Pegawai.kd_bagian where Gaji.gaji = '800000'
+
+select Menu.nama_menu from Pesanan join Bayar on Bayar.kd_pesanan = Pesanan.kd_pesanan join Menu on Pesanan.kd_menu = Menu.kd_menu where Bayar.tanggal = '2017-12-14'
+
+select Pelanggan.nama from Pelanggan join Bayar on Bayar.kd_pelanggan = Pelanggan.kd_pelanggan where Bayar.total_harga = '51200'
+
+select count (total_harga) 'sjhaj' from Bayar
+
+select COUNT(nama_kategori) from Kategori join Menu on kategori.kd_kategori = Menu.kd_kategori join Pesanan on Pesanan.kd_menu = Menu.kd_menu where Kategori.nama_kategori='Kopi'
+
+select Jadwal_Pegawai.shift, Pegawai.nama from Pegawai join Jadwal_Pegawai on Jadwal_Pegawai.kd_pegawai = Pegawai.kd_pegawai where Jadwal_Pegawai.shift = 'Sore'
+
+select Member.nama, Diskon.diskon from Member join Diskon on member.kd_diskon = Diskon.kd_diskon where Member.nama ='Hana'
+
+select Pegawai.nama, Member.nama from Member join Pesanan on Member.kd_member = Pesanan.kd_member join Pegawai on Pegawai.kd_pegawai = Pesanan.kd_pegawai where Member.nama='Hana'
+
+select Pegawai.nama, Bagian.bagian, Gaji.gaji from Bagian join Gaji on  Pegawai.kd_bagian = Bagian.kd_bagian join Gaji on Pegawai.kd_pegawai = Gaji.kd_pegawai 
+
+select Pegawai.nama, Bagian.bagian from Pegawai join Bagian on Pegawai.kd_bagian = Bagian.kd_bagian
+
+select sum(gaji) from Pegawai join Jadwal_Pegawai on pegawai.kd_pegawai = Jadwal_Pegawai.kd_pegawai join Gaji on Pegawai.kd_pegawai = Gaji.kd_pegawai
